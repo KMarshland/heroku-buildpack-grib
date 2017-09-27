@@ -10,7 +10,7 @@ fi
 # Install cmake
 # All credit to https://github.com/rcaught/heroku-buildpack-cmake/blob/master/bin/compile
 
-puts_step "Installing cmake"
+echo "-----> Installing cmake"
 
 # change to the the BUILD_DIR ($1)
 cd $1
@@ -30,7 +30,7 @@ echo $debug
 ####
 
 echo ""
-puts_step "Installing grib"
+echo "-----> Installing grib"
 
 # install it
 curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22.0-Source.tar.gz?api=v2' > grib.tar.gz && \
@@ -56,4 +56,4 @@ chmod +x $BUILD_DIR/.profile.d/set-path.sh
 # clean up
 rm -rf grib
 
-puts_step "Installed GRIB API v$(grib_info -v)"
+echo "-----> Installed GRIB API v$(grib_info -v)"
