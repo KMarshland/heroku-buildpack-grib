@@ -32,6 +32,12 @@ echo $debug
 echo ""
 echo "-----> Installing grib"
 
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+mkdir -p $BUILD_DIR/grib-tools
+cd $BUILD_DIR/grib-tools
+
 # install it
 curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22.0-Source.tar.gz?api=v2' > grib.tar.gz && \
     mkdir grib && \
@@ -42,18 +48,11 @@ curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22
     cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF && \
     make && cd ..
 
-# rename build to grib tools
-mv build grib-tools
-
 # add it to the PATH
-BUILD_DIR=$1
-CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname $(dirname $0))"
 mkdir -p $BUILD_DIR/.profile.d
 cp "$BUILDPACK_DIR/bin/set-path.sh" $BUILD_DIR/.profile.d/
 chmod +x $BUILD_DIR/.profile.d/set-path.sh
 
-# clean up
-rm -rf grib
 
-echo "-----> Installed GRIB API v$(grib_info -v)"
+echo "-----> Installed GRIB API v$(grib-tools/build/bin/grib_info -v)"
