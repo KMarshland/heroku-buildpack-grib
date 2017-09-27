@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# just let everything be a valid grib buildpack
+exit 0;
