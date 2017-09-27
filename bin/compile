@@ -45,7 +45,7 @@ curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22
     rm grib.tar.gz && \
     mkdir build && \
     cd build && \
-    cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF CMAKE_INSTALL_PREFIX=$BUILD_DIR/grib-tools && \
+    cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF $BUILD_DIR/grib-tools && \
     make && make install && \
     cd ..
 
@@ -56,4 +56,4 @@ cp "$BUILDPACK_DIR/bin/set-path.sh" $BUILD_DIR/.profile.d/
 chmod +x $BUILD_DIR/.profile.d/set-path.sh
 
 
-echo "-----> Installed GRIB API v$(build/bin/grib_info -v)"
+echo "-----> Installed GRIB API v$($BUILD_DIR/grib-tools/build/bin/grib_info -v)"
