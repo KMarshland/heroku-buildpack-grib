@@ -12,8 +12,8 @@ fi
 
 echo "-----> Installing cmake"
 
-# change to the the CACHE_DIR ($1)
-cd $2
+# change to the the BUILD_DIR ($1)
+cd $1
 
 # download
 curl https://s3.amazonaws.com/mergeguard/cmake.tar.gz -s -O
@@ -53,3 +53,5 @@ rm -rf grib
 
 # test that it installed
 grib_info -v
+echo ""
+echo ""
