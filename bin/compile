@@ -23,6 +23,8 @@ echo $debug
 
 ####
 
+echo "-----> Installing grib"
+
 curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22.0-Source.tar.gz?api=v2' > grib.tar.gz && \
     mkdir grib && \
     tar -xzf grib.tar.gz -C grib --strip-components 1 && \
@@ -30,10 +32,11 @@ curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22
     mkdir build && \
     cd build && \
     cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF && \
-    make && make install && \
-    cd .. && \
-    rm -rf grib && \
-    rm -rf build
+    make && make install
+#     && \
+#    cd .. && \
+#    rm -rf grib && \
+#    rm -rf build
 
 # test that it installed
-grib_info -v
+#grib_info -v
