@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
+# Check if it's already installed
+if which "$grib_info" > /dev/null; then
+  echo "GRIB API v$(grib_info -v) already installed"
+  exit 0
+fi
+
 ####
 # Install cmake
 # All credit to https://github.com/rcaught/heroku-buildpack-cmake/blob/master/bin/compile
 
 echo "-----> Installing cmake"
 
-# change to the the BUILD_DIR ($1)
-cd $1
+# change to the the CACHE_DIR ($1)
+cd $2
 
 # download
 curl https://s3.amazonaws.com/mergeguard/cmake.tar.gz -s -O
@@ -26,6 +32,7 @@ echo $debug
 echo ""
 echo "-----> Installing grib"
 
+# install it
 curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22.0-Source.tar.gz?api=v2' > grib.tar.gz && \
     mkdir grib && \
     tar -xzf grib.tar.gz -C grib --strip-components 1 && \
@@ -33,11 +40,16 @@ curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22
     mkdir build && \
     cd build && \
     cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF && \
-    make
-#    && make install && \
-#    cd .. && \
-#    rm -rf grib && \
-#    rm -rf build
+    make && cd ..
+
+# rename build to grib tools
+mv build grib-tools
+
+# add it to the PATH
+export PATH=$PATH:$(pwd)/grib-tools/bin
+
+# clean up
+rm -rf grib
 
 # test that it installed
-#grib_info -v
+grib_info -v
