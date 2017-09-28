@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-export PATH=$PATH:$(pwd)/grib-tools
+export PATH=$PATH:CACHE_DIR/grib-tools/bin

@@ -37,8 +37,8 @@ echo "-----> Installing grib"
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-mkdir -p $BUILD_DIR/grib-tools
-cd $BUILD_DIR/grib-tools
+mkdir -p $CACHE_DIR/grib-tools
+cd $CACHE_DIR/grib-tools
 
 # install it
 curl 'https://software.ecmwf.int/wiki/download/attachments/3473437/grib_api-1.22.0-Source.tar.gz?api=v2' > grib.tar.gz
@@ -47,16 +47,17 @@ tar -xzf grib.tar.gz -C grib --strip-components 1
 rm grib.tar.gz
 mkdir build
 cd build
-cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/grib-tools
+cmake ../grib -DENABLE_GRIB_THREADS=ON -DENABLE_FORTRAN=OFF -DENABLE_PYTHON=OFF -DENABLE_JPG=OFF -DENABLE_NETCDF=OFF -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/grib-tools
 make && make install
 cd ..
 
 # add it to the PATH
-export PATH=$PATH:$BUILD_DIR/grib-tools/bin
+export PATH=$PATH:$CACHE_DIR/grib-tools/bin
 
 BUILDPACK_DIR="$(dirname $(dirname $0))"
 mkdir -p $BUILD_DIR/.profile.d
 cp "$BUILDPACK_DIR/bin/set-path.sh" $BUILD_DIR/.profile.d/
+sed -i.bak s/CACHE_DIR/$CACHE_DIR/g $BUILD_DIR/.profile.d/set-path.sh
 chmod +x $BUILD_DIR/.profile.d/set-path.sh
 
 
