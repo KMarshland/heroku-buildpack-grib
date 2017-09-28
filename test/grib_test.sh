@@ -7,6 +7,4 @@ testCompile() {
     compile
     assertCapturedSuccess
 
-    echo $(STD_OUT)
-
 }
