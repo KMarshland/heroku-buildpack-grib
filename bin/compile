@@ -6,8 +6,8 @@ CACHE_DIR=$2
 # Check if it's already installed
 if [ -d "$CACHE_DIR/grib_tools" ]; then
 
-    mkdir -p $BUILD_DIR/grib_tools
-    cp -r $CACHE_DIR/grib_tools $BUILD_DIR/grib_tools
+    mkdir -p $BUILD_DIR/grib-tools
+    cp -r $CACHE_DIR/grib-tools $BUILD_DIR/grib-tools
 
     export PATH=$PATH:$BUILD_DIR/grib-tools/bin
 
@@ -59,15 +59,14 @@ make && make install
 cd ..
 
 # add it to the PATH and build dir
-mkdir -p $BUILD_DIR/grib_tools
-cp -r $CACHE_DIR/grib_tools $BUILD_DIR/grib_tools
+mkdir -p $BUILD_DIR/grib-tools
+cp -r $CACHE_DIR/grib-tools $BUILD_DIR/grib-tools
 
 export PATH=$PATH:$BUILD_DIR/grib-tools/bin
 
 BUILDPACK_DIR="$(dirname $(dirname $0))"
 mkdir -p $BUILD_DIR/.profile.d
 cp "$BUILDPACK_DIR/bin/set-path.sh" $BUILD_DIR/.profile.d/
-sed -i.bak 's@BUILD_DIR@'"$BUILD_DIR"'@g' $BUILD_DIR/.profile.d/set-path.sh
 chmod +x $BUILD_DIR/.profile.d/set-path.sh
 
 
